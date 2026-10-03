@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: posts-api
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/desafio_posts}
+    username: ${DB_USER:posts_user}
+    password: ${DB_PASSWORD:posts_local}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false

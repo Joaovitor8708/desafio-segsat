@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17.11
+    environment:
+      POSTGRES_DB: desafio_posts
+      POSTGRES_USER: posts_user
+      POSTGRES_PASSWORD: posts_local
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U posts_user -d desafio_posts"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
