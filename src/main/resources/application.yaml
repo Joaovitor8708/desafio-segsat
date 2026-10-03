@@ -11,3 +11,12 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+
+  http:
+    clients:
+      connect-timeout: 5s
+      read-timeout: 10s
+
+integracao:
+  jsonplaceholder:
+    base-url: ${JSONPLACEHOLDER_BASE_URL:https://jsonplaceholder.typicode.com}

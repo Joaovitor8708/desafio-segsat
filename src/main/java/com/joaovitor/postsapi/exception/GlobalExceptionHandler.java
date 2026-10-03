@@ -25,4 +25,19 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(erro);
     }
+
+    @ExceptionHandler(ExternalServiceException.class)
+    public ResponseEntity<ErrorResponse> tratarServicoExterno(
+            ExternalServiceException exception) {
+
+        ErrorResponse erro = new ErrorResponse(
+                HttpStatus.BAD_GATEWAY.value(),
+                exception.getMessage(),
+                Instant.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
+                .body(erro);
+    }
 }

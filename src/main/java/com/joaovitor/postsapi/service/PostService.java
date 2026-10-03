@@ -2,6 +2,7 @@ package com.joaovitor.postsapi.service;
 
 import com.joaovitor.postsapi.dto.PostDTO;
 import com.joaovitor.postsapi.exception.PostNotFoundException;
+import com.joaovitor.postsapi.mapper.PostMapper;
 import com.joaovitor.postsapi.model.Post;
 import com.joaovitor.postsapi.repository.PostRepository;
 import org.springframework.stereotype.Service;
@@ -14,15 +15,20 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostMapper postMapper;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(
+            PostRepository postRepository,
+            PostMapper postMapper) {
+
         this.postRepository = postRepository;
+        this.postMapper = postMapper;
     }
 
     public List<PostDTO> listarPosts() {
         return postRepository.findAll()
                 .stream()
-                .map(this::converterParaDTO)
+                .map(postMapper::paraDTO)
                 .toList();
     }
 
@@ -30,15 +36,6 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id));
 
-        return converterParaDTO(post);
-    }
-
-    private PostDTO converterParaDTO(Post post) {
-        return new PostDTO(
-                post.getId(),
-                post.getUserId(),
-                post.getTitle(),
-                post.getBody()
-        );
+        return postMapper.paraDTO(post);
     }
 }
